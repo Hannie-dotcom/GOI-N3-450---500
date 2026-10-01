@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mimikara N3 - Từ 451 đến 500</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background: linear-gradient(rgba(255, 245, 247, 0.7), rgba(240, 220, 225, 0.8)),
+                        url('https://images.unsplash.com/photo-1522383225653-ed111181a951?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 12px;
+            overflow-x: hidden;
+        }
+
+        .sakura-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .petal {
+            position: absolute;
+            background: #ffb7c5;
+            border-radius: 15px 0 15px 0;
+            opacity: 0.75;
+            filter: drop-shadow(0 2px 4px rgba(216, 90, 127, 0.2));
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translate(0, -10px) rotate(0deg); opacity: 0.8; }
+            100% { transform: translate(80px, 105vh) rotate(360deg); opacity: 0; }
+        }
+
+        .app-card {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px;
+            padding: 20px 16px;
+            border: 1.5px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 30px rgba(180, 100, 120, 0.15);
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-menu {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #f2d5db;
+            padding-bottom: 8px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 8px;
+            border: none;
+            background: #fff0f3;
+            color: #d85a7f;
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active { background: #d85a7f; color: white; }
+
+        .header { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 13px; 
+            font-weight: 700; 
+            color: #b06d7e; 
+            margin-bottom: 12px; 
+        }
+
+        .vocab-card {
+            background: #fff5f7;
+            border-left: 4px solid #d85a7f;
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .vocab-num { font-size: 12px; font-weight: 700; color: #d85a7f; margin-bottom: 2px; }
+        .vocab-word { font-size: 26px; font-weight: 700; color: #3a2e30; }
+        .vocab-reading { font-size: 15px; color: #b06d7e; margin-top: 2px; }
+        .vocab-meaning { font-size: 16px; color: #4a383b; font-weight: 700; }
+
+        .options-grid { display: flex; flex-direction: column; gap: 10px; }
+        .opt-btn {
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border: 1.5px solid #f2d5db;
+            color: #4a383b;
+            padding: 14px 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            line-height: 1.3;
+        }
+        .opt-btn:active { background: #fff0f3; border-color: #d85a7f; }
+        .opt-btn.correct { background: #e8f5e9 !important; border-color: #66bb6a !important; color: #2e7d32 !important; }
+        .opt-btn.wrong { background: #ffebee !important; border-color: #ef5350 !important; color: #c62828 !important; }
+
+        .typing-box { display: flex; flex-direction: column; gap: 10px; }
+        .typing-input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #f2d5db;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            background: #fff;
+        }
+        .typing-input:focus { border-color: #d85a7f; }
+
+        .example-box {
+            background: #ffffff;
+            border: 1px dashed #d85a7f;
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+        .example-title { font-size: 11px; font-weight: 700; color: #d85a7f; text-transform: uppercase; margin-bottom: 4px; }
+        .example-jp { font-size: 15px; color: #3a2e30; font-weight: 600; margin-bottom: 4px; }
+        .example-vi { font-size: 13px; color: #666; line-height: 1.4; }
+
+        .feedback { display: none; margin-top: 14px; }
+        .next-btn {
+            display: block;
+            width: 100%;
+            margin-top: 12px;
+            background: linear-gradient(135deg, #e07a9e 0%, #d85a7f 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+        }
+        .next-btn:active { opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+    <div class="sakura-container" id="sakura-box"></div>
+
+    <div class="app-card">
+        <div class="tab-menu">
+            <button class="tab-btn active" onclick="switchMode('quiz')">📝 Trắc nghiệm</button>
+            <button class="tab-btn" onclick="switchMode('typing')">⌨️ Luyện gõ từ</button>
+        </div>
+
+        <div class="header">
+            <span id="q-count">Từ 451 / 500</span>
+            <span id="score-count">Điểm: 0</span>
+        </div>
+
+        <!-- Chế độ Trắc nghiệm -->
+        <div id="quiz-section">
+            <div class="vocab-card">
+                <div class="vocab-num" id="q-num">No. 451</div>
+                <div class="vocab-word" id="q-word">隠す</div>
+                <div class="vocab-reading" id="q-reading">かくす</div>
+            </div>
+
+            <div class="options-grid" id="quiz-box"></div>
+        </div>
+
+        <!-- Chế độ Luyện gõ -->
+        <div id="typing-section" style="display: none;">
+            <div class="vocab-card">
+                <div class="vocab-num" id="t-num">No. 451</div>
+                <div class="vocab-meaning" id="t-meaning">Che giấu, giấu đi</div>
+            </div>
+
+            <div class="typing-box">
+                <input type="text" class="typing-input" id="typing-input" placeholder="Gõ Kanji, Kana hoặc Romaji..." autocomplete="off" autocapitalize="off">
+                <button class="next-btn" style="margin-top:0;" onclick="checkTyping()">Kiểm tra</button>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">🌸 Ví dụ trong sách Mimikara:</div>
+                <div class="example-jp" id="t-ex-jp">お金を引き出しの奥に「かくし」た。</div>
+                <div class="example-vi" id="t-ex-vi">Tôi giấu tiền vào sâu trong ngăn kéo.</div>
+            </div>
+        </div>
+
+        <div class="feedback" id="feedback">
+            <div id="result-status" style="font-weight: 700; text-align: center; font-size: 15px;"></div>
+            <button class="next-btn" onclick="nextWord()">Từ tiếp theo ➔</button>
+        </div>
+    </div>
+
+    <script>
+        function createPetal() {
+            const box = document.getElementById('sakura-box');
+            if(!box) return;
+            const p = document.createElement('div');
+            p.classList.add('petal');
+            p.style.width = Math.random() * 6 + 6 + 'px';
+            p.style.height = Math.random() * 8 + 8 + 'px';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = Math.random() * 3 + 5 + 's';
+            box.appendChild(p);
+            setTimeout(() => p.remove(), 8000);
+        }
+        setInterval(createPetal, 500);
+
+        // 50 từ vựng Mimikara N3 tiếp theo (Từ 451 đến 500)
+        const vocabData = [
+            { id: 451, word: "隠す", reading: "かくす", romaji: "kakusu", meaning: "Che giấu, giấu đi", exJp: "お金を引き出しの奥に「かくし」た。", exVi: "Tôi giấu tiền vào sâu trong ngăn kéo." },
+            { id: 452, word: "埋まる", reading: "うまる", romaji: "umaru", meaning: "Bị lấp, bị chôn, đầy", exJp: "山がくずれて家が「うまれ」てしまった。", exVi: "Sạt lở núi làm nhà cửa bị vùi lấp." },
+            { id: 453, word: "埋める", reading: "うめる", romaji: "umeru", meaning: "Chôn, lấp (lỗ)", exJp: "あなを掘ってごみを「うめ」た。", exVi: "Đào cái hố rồi chôn rác xuống." },
+            { id: 454, word: "囲む", reading: "かこむ", romaji: "kakomu", meaning: "Vây quanh, bao quanh", exJp: "テーブルを「囲ん」で座る。", exVi: "Ngồi vây quanh bàn ăn." },
+            { id: 455, word: "詰まる", reading: "つまる", romaji: "tsumaru", meaning: "Tắc, nghẽn, dồn nén", exJp: "かばんにたくさん荷物が「つまっ」ている。", exVi: "Trong cặp nhồi nhét rất nhiều đồ đạc." },
+            { id: 456, word: "詰める", reading: "つめる", romaji: "tsumeru", meaning: "Nén, nhồi, đóng gói", exJp: "かばんに荷物を「つめる」。", exVi: "Nhồi nhét hành lý vào cặp." },
+            { id: 457, word: "開く", reading: "ひらく", romaji: "hiraku", meaning: "Mở (sách, cửa), nở (hoa), tổ chức", exJp: "本を「開い」て読む。", exVi: "Mở sách ra đọc." },
+            { id: 458, word: "閉じる", reading: "とじる", romaji: "tojiru", meaning: "Đóng (sách, mắt), khép lại", exJp: "寒いのでドアを「閉じ」た。", exVi: "Vì lạnh nên tôi đóng cửa lại." },
+            { id: 459, word: "飛ぶ", reading: "とぶ", romaji: "tobu", meaning: "Bay, bắn (nước), nhảy", exJp: "鳥が空を「飛ん」でいる。", exVi: "Con chim đang bay trên bầu trời." },
+            { id: 460, word: "飛ばす", reading: "とばす", romaji: "tobasu", meaning: "Phóng, làm bay, bỏ qua", exJp: "紙飛行機を「飛ばす」。", exVi: "Phóng máy bay giấy." },
+            { id: 461, word: "振る", reading: "ふる", romaji: "furu", meaning: "Vẫy (tay), rắc, từ chối (người yêu)", exJp: "手を「振る」。", exVi: "Vẫy tay." },
+            { id: 462, word: "めくる", reading: "めくる", romaji: "mekuru", meaning: "Lật, giở (trang sách, lịch)", exJp: "カレンダーを「めくる」。", exVi: "Giở tờ lịch." },
+            { id: 463, word: "見かける", reading: "みかける", romaji: "mikakeru", meaning: "Tình cờ thấy, bắt gặp", exJp: "街で偶然、昔の友だちを「見かけ」た。", exVi: "Tình cờ bắt gặp bạn cũ trên phố." },
+            { id: 464, word: "確かめる", reading: "たしかめる", romaji: "tashikameru", meaning: "Xác nhận, kiểm tra lại", exJp: "ファックスが届いたかどうか「確かめ」た。", exVi: "Tôi đã kiểm tra lại xem bản fax đã đến chưa." },
+            { id: 465, word: "試す", reading: "ためす", romaji: "tamesu", meaning: "Thử, thử nghiệm", exJp: "洋服が似合うかどうか、着て「試し」てみた。", exVi: "Tôi mặc thử xem bộ quần áo có hợp không." },
+            { id: 466, word: "繰り返す", reading: "くりかえす", romaji: "kurikaesu", meaning: "Lặp đi lặp lại", exJp: "同じ失敗を「繰り替えし」てはいけない。", exVi: "Không được lặp lại cùng một sai lầm." },
+            { id: 467, word: "訳す", reading: "やくす", romaji: "yakusu", meaning: "Dịch, dịch thuật", exJp: "英語を日本語に「訳す」。", exVi: "Dịch tiếng Anh sang tiếng Nhật." },
+            { id: 468, word: "行う", reading: "おこなう", romaji: "okonau", meaning: "Tổ chức, tiến hành", exJp: "試験を「行う」。", exVi: "Tổ chức kỳ thi." },
+            { id: 469, word: "間違える", reading: "まちがえる", romaji: "machigaeru", meaning: "Nhầm lẫn, làm sai", exJp: "計算を「間違え」た。", exVi: "Tôi đã tính toán sai." },
+            { id: 470, word: "間違える", reading: "まちがえる", romaji: "machigaeru", meaning: "Nhầm lẫn (với cái khác)", exJp: "塩とさとうを「間違え」て入れてしまった。", exVi: "Lỡ bỏ nhầm muối với đường vào." },
+            { id: 471, word: "許す", reading: "ゆるす", romaji: "yurutsu", meaning: "Tha thứ, cho phép", exJp: "相手が謝ったので「許し」てあげた。", exVi: "Đối phương đã xin lỗi nên tôi đã tha thứ." },
+            { id: 472, word: "慣れる", reading: "なれる", romaji: "nareru", meaning: "Quen với, quen thuộc", exJp: "日本へ来て半年たって、生活にも「慣れ」た。", exVi: "Đến Nhật nửa năm nên tôi đã quen với cuộc sống." },
+            { id: 473, word: "慣らす", reading: "ならす", romaji: "narasu", meaning: "Làm cho quen, khởi động (cơ thể)", exJp: "準備運動をして体を「慣らし」てからプールに入る。", exVi: "Khởi động làm quen cơ thể rồi mới vào bể bơi." },
+            { id: 474, word: "立つ", reading: "たつ", romaji: "tatsu", meaning: "Đứng, dựng đứng", exJp: "名前を呼ばれたら「立っ」てください。", exVi: "Khi được gọi tên hãy đứng dậy." },
+            { id: 475, word: "立てる", reading: "たてる", romaji: "tateru", meaning: "Dựng lên, lập (kế hoạch)", exJp: "屋根の上にアンテナを「立てる」。", exVi: "Dựng ăng-ten trên mái nhà." },
+            { id: 476, word: "建つ", reading: "たつ", romaji: "tatsu", meaning: "Được xây dựng", exJp: "家の前に大きなマンションが「建っ」た。", exVi: "Một tòa chung cư lớn được xây dựng trước nhà." },
+            { id: 477, word: "建てろ", reading: "たてる", romaji: "tateru", meaning: "Xây dựng (nhà cửa)", exJp: "都心に家を「建て」るのは大変だ。", exVi: "Xây nhà ở trung tâm thành phố rất vất vả." },
+            { id: 478, word: "育つ", reading: "そだつ", romaji: "sodatsu", meaning: "Lớn lên, phát triển", exJp: "雨が多い年は、米がよく「育つ」。", exVi: "Năm nhiều mưa thì lúa phát triển rất tốt." },
+            { id: 479, word: "育てろ", reading: "そだてる", romaji: "sodateru", meaning: "Nuôi nấng, trồng trọt", exJp: "親は5人の子どもを「育て」た。", exVi: "Bố mẹ đã nuôi nấng 5 đứa con." },
+            { id: 480, word: "生える", reading: "はえる", romaji: "haeru", meaning: "Mọc (cỏ, răng, râu, mốc)", exJp: "かびが「生え」やすい。", exVi: "Rất dễ mọc nấm mốc." },
+            { id: 481, word: "生やす", reading: "はやす", romaji: "hayasu", meaning: "Để (râu, tóc)", exJp: "ひげを「生やす」。", exVi: "Để râu." },
+            { id: 482, word: "汚れる", reading: "よごれる", romaji: "yogoreru", meaning: "Bị bẩn, bị ô nhiễm", exJp: "空気の「汚れ」たところには住みたくない。", exVi: "Tôi không muốn sống ở nơi không khí bị ô nhiễm." },
+            { id: 483, word: "汚す", reading: "よごす", romaji: "yogosu", meaning: "Làm bẩn, làm ô nhiễm", exJp: "どろ遊びをして服を「汚し」た。", exVi: "Chơi nghịch bùn làm bẩn quần áo." },
+            { id: 484, word: "壊れる", reading: "こわれる", romaji: "kowareru", meaning: "Bị hỏng, bị vỡ", exJp: "「壊れ」た時計を直してもらった。", exVi: "Chiếc đồng hồ bị hỏng đã được sửa xong." },
+            { id: 485, word: "壊す", reading: "こわす", romaji: "kowasu", meaning: "Làm hỏng, hủy hoại (sức khỏe)", exJp: "飲み過ぎて体を「こわし」てしまった。", exVi: "Uống quá nhiều rượu làm hủy hoại sức khỏe." },
+            { id: 486, word: "割れる", reading: "われる", romaji: "wareru", meaning: "Bị vỡ, bị bể, rạn nứt", exJp: "ガラスが「割れ」た。", exVi: "Tấm kính bị vỡ." },
+            { id: 487, word: "割る", reading: "わる", romaji: "waru", meaning: "Đập vỡ, chia (phép chia)", exJp: "卵を「割っ」てボウルに入れる。", exVi: "Đập trứng cho vào bát." },
+            { id: 488, word: "折れる", reading: "おれる", romaji: "oreru", meaning: "Bị gãy, gập", exJp: "強い風で枝が「折れ」た。", exVi: "Cành cây bị gãy do gió mạnh." },
+            { id: 489, word: "折る", reading: "おる", romaji: "oru", meaning: "Làm gãy, gấp (giấy)", exJp: "スキーをして、足の骨を「折っ」た。", exVi: "Trượt tuyết bị gãy xương chân." },
+            { id: 490, word: "破れる", reading: "やぶれる", romaji: "yabureru", meaning: "Bị rách, rách", exJp: "紙が「破れ」た。", exVi: "Tờ giấy bị rách." },
+            { id: 491, word: "破る", reading: "やぶる", romaji: "yaburu", meaning: "Xé rách, phá vỡ (quy tắc)", exJp: "約束を「破る」。", exVi: "Phá vỡ lời hứa." },
+            { id: 492, word: "曲がる", reading: "まがる", romaji: "magaru", meaning: "Rẽ, uốn cong, cong", exJp: "この角を右に「曲がっ」ていく。", exVi: "Rẽ phải ở góc đường này." },
+            { id: 493, word: "曲げる", reading: "まげる", romaji: "mageru", meaning: "Uốn cong, bẻ cong", exJp: "針金を「曲げる」。", exVi: "Uốn cong sợi dây thép." },
+            { id: 494, word: "外れる", reading: "はずれる", romaji: "hazureru", meaning: "Tuột ra, trượt (vé số)", exJp: "ボタンが「外れ」た。", exVi: "Cái cúc áo bị tuột ra." },
+            { id: 495, word: "外す", reading: "はずす", romaji: "hazusu", meaning: "Tháo ra, gỡ ra", exJp: "メガネを「外す」。", exVi: "Tháo kính mắt ra." },
+            { id: 496, word: "揺れる", reading: "ゆれる", romaji: "yureru", meaning: "Rung lắc, đu đưa", exJp: "風で木の葉が「揺れ」ている。", exVi: "Lá cây đang đu đưa trong gió." },
+            { id: 497, word: "揺らす", reading: "ゆらす", romaji: "yurasu", meaning: "Đung đưa, rung lắc", exJp: "ブランコを「ゆらし」て遊ばせた。", exVi: "Đu đưa xích đu cho đứa trẻ chơi." },
+            { id: 498, word: "流れる", reading: "ながれる", romaji: "nagareru", meaning: "Chảy, trôi, phát (nhạc)", exJp: "町の中心を大きな川が「流れ」ている。", exVi: "Một con sông lớn đang chảy qua trung tâm thị trấn." },
+            { id: 499, word: "流す", reading: "ながす", romaji: "nagasu", meaning: "Xả (nước), làm trôi, phát (nhạc)", exJp: "汚れた水を川に「流し」てはいけない。", exVi: "Không được xả nước bẩn ra sông." },
+            { id: 500, word: "濡れる", reading: "ぬれる", romaji: "nureru", meaning: "Bị ướt, bị ướt sũng", exJp: "雨に「濡れ」て、かぜをひいた。", exVi: "Bị ướt mưa nên bị cảm lạnh." }
+        ];
+
+        let currentMode = 'quiz';
+        let currentIndex = 0;
+        let score = 0;
+        let canInteract = true;
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            if(mode === 'quiz') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('quiz-section').style.display = 'block';
+                document.getElementById('typing-section').style.display = 'none';
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('quiz-section').style.display = 'none';
+                document.getElementById('typing-section').style.display = 'block';
+            }
+            loadWord();
+        }
+
+        function loadWord() {
+            canInteract = true;
+            document.getElementById('feedback').style.display = 'none';
+            const item = vocabData[currentIndex];
+
+            document.getElementById('q-count').innerText = `Từ ${currentIndex + 451} / ${vocabData.length + 450}`;
+            document.getElementById('score-count').innerText = `Điểm: ${score}`;
+
+            if(currentMode === 'quiz') {
+                document.getElementById('q-num').innerText = `No. ${item.id}`;
+                document.getElementById('q-word').innerText = item.word;
+                document.getElementById('q-reading').innerText = item.reading;
+
+                const quizBox = document.getElementById('quiz-box');
+                quizBox.innerHTML = '';
+
+                let options = [item.meaning];
+                while(options.length < 4) {
+                    let randItem = vocabData[Math.floor(Math.random() * vocabData.length)].meaning;
+                    if(!options.includes(randItem)) options.push(randItem);
+                }
+                options.sort(() => Math.random() - 0.5);
+
+                options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = 'opt-btn';
+                    btn.innerText = opt;
+                    btn.onclick = () => checkQuiz(btn, opt === item.meaning);
+                    quizBox.appendChild(btn);
+                });
+            } else {
+                document.getElementById('t-num').innerText = `No. ${item.id}`;
+                document.getElementById('t-meaning').innerText = item.meaning;
+                document.getElementById('t-ex-jp').innerText = item.exJp;
+                document.getElementById('t-ex-vi').innerText = item.exVi;
+                document.getElementById('typing-input').value = '';
+            }
+        }
+
+        function checkQuiz(btn, isCorrect) {
+            if(!canInteract) return;
+            canInteract = false;
+
+            const statusEl = document.getElementById('result-status');
+            if(isCorrect) {
+                btn.classList.add('correct');
+                score += 10;
+                statusEl.innerHTML = `<span style="color: #4caf50;">✓ 正解 (Chính xác!)</span>`;
+            } else {
+                btn.classList.add('wrong');
+                statusEl.innerHTML = `<span style="color: #ef5350;">✕ ざんねん (Đáp án đúng: ${vocabData[currentIndex].meaning})</span>`;
+            }
+            document.getElementById('score-count').innerText = `Điểm: ${score}`;
+            document.getElementById('feedback').style.display = 'block';
+        }
+
+        function checkTyping() {
+            if(!canInteract) return;
+            canInteract = false;
+
+            const val = document.getElementById('typing-input').value.trim().toLowerCase();
+            const item = vocabData[currentIndex];
+            const statusEl = document.getElementById('result-status');
+
+            if(val === item.word.toLowerCase() || val === item.reading || val === item.romaji) {
+                score += 10;
+                statusEl.innerHTML = `<span style="color: #4caf50;">✓ 正解 (Chính xác: ${item.word} - ${item.reading})</span>`;
+            } else {
+                statusEl.innerHTML = `<span style="color: #ef5350;">✕ ざんねん (Đáp án đúng: ${item.word} / ${item.reading})</span>`;
+            }
+            document.getElementById('score-count').innerText = `Điểm: ${score}`;
+            document.getElementById('feedback').style.display = 'block';
+        }
+
+        function nextWord() {
+            currentIndex = (currentIndex + 1) % vocabData.length;
+            loadWord();
+        }
+
+        loadWord();
+    </script>
+</body>
+</html>
